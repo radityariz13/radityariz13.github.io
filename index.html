@@ -1,0 +1,108 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+export default function LearnAnyLanguage() {
+  const [language, setLanguage] = useState("");
+  const [topic, setTopic] = useState("");
+  const [lesson, setLesson] = useState("");
+
+  const languages = [
+    "English",
+    "Japanese",
+    "Spanish",
+    "French",
+    "Dutch",
+    "Mandarin",
+    "Arabic",
+  ];
+
+  const handleLesson = () => {
+    if (!language || !topic) {
+      setLesson("Please select a language and enter a topic.");
+    } else {
+      setLesson(`Here is your ${language} lesson about '${topic}'.`);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-neutral-100 flex flex-col items-center p-6 space-y-6">
+      <h1 className="text-3xl font-bold">Learn Any Language (LAL)</h1>
+
+      {/* Welcome Text */}
+      <Card className="w-full max-w-xl">
+        <CardContent className="p-4">
+          <h2 className="font-semibold">Welcome Text</h2>
+          <p>
+            Welcome to Learn Any Language (LAL)! This interactive platform helps
+            students learn various languages with topics you can choose.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Language Selection */}
+      <Card className="w-full max-w-xl">
+        <CardContent className="p-4 space-y-2">
+          <h2 className="font-semibold">Language Selection</h2>
+          <select
+            className="w-full p-2 border rounded-lg"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="">Choose your language</option>
+            {languages.map((lang, idx) => (
+              <option key={idx} value={lang}>
+                {lang}
+              </option>
+            ))}
+          </select>
+        </CardContent>
+      </Card>
+
+      {/* Learning Topic */}
+      <Card className="w-full max-w-xl">
+        <CardContent className="p-4 space-y-2">
+          <h2 className="font-semibold">Learning Topic</h2>
+          <input
+            type="text"
+            placeholder="Enter what you want to learn (e.g., greetings, numbers, daily conversation, grammar)"
+            className="w-full p-2 border rounded-lg"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Buttons */}
+      <div className="flex flex-col space-y-4 w-full max-w-xl">
+        <motion.div whileTap={{ scale: 0.95 }}>
+          <Button
+            onClick={handleLesson}
+            className="w-full bg-lime-300 hover:bg-lime-400 text-black font-semibold p-4 rounded-2xl shadow"
+          >
+            ✨ Language Lesson
+          </Button>
+        </motion.div>
+
+        <motion.div whileTap={{ scale: 0.95 }}>
+          <Button className="w-full bg-lime-400 hover:bg-lime-500 text-black font-semibold p-4 rounded-2xl shadow">
+            💬 Practice Conversation
+          </Button>
+        </motion.div>
+      </div>
+
+      {/* Lesson Output */}
+      {lesson && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-xl mt-4 p-4 bg-white rounded-2xl shadow"
+        >
+          <h3 className="font-semibold">Lesson Output:</h3>
+          <p>{lesson}</p>
+        </motion.div>
+      )}
+    </div>
+  );
+}
