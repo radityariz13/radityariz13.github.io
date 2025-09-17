@@ -1,108 +1,142 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-
-export default function LearnAnyLanguage() {
-  const [language, setLanguage] = useState("");
-  const [topic, setTopic] = useState("");
-  const [lesson, setLesson] = useState("");
-
-  const languages = [
-    "English",
-    "Japanese",
-    "Spanish",
-    "French",
-    "Dutch",
-    "Mandarin",
-    "Arabic",
-  ];
-
-  const handleLesson = () => {
-    if (!language || !topic) {
-      setLesson("Please select a language and enter a topic.");
-    } else {
-      setLesson(`Here is your ${language} lesson about '${topic}'.`);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn Any Language (LAL)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-  };
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 16px;
+      margin: 10px 0;
+      width: 90%;
+      max-width: 500px;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .lesson-btn {
+      background: #ccff66;
+    }
+    .lesson-btn:hover {
+      background: #b3ff4d;
+    }
+    .practice-btn {
+      background: #99ff66;
+    }
+    .practice-btn:hover {
+      background: #80ff4d;
+    }
+    .output {
+      margin-top: 20px;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
 
-  return (
-    <div className="min-h-screen bg-neutral-100 flex flex-col items-center p-6 space-y-6">
-      <h1 className="text-3xl font-bold">Learn Any Language (LAL)</h1>
+  <h1>Learn Any Language (LAL)</h1>
 
-      {/* Welcome Text */}
-      <Card className="w-full max-w-xl">
-        <CardContent className="p-4">
-          <h2 className="font-semibold">Welcome Text</h2>
-          <p>
-            Welcome to Learn Any Language (LAL)! This interactive platform helps
-            students learn various languages with topics you can choose.
-          </p>
-        </CardContent>
-      </Card>
+  <!-- Welcome Text -->
+  <div class="card">
+    <h2>Welcome Text</h2>
+    <p>
+      Welcome to Learn Any Language (LAL)! This interactive platform helps students 
+      learn various languages with topics you can choose.
+    </p>
+  </div>
 
-      {/* Language Selection */}
-      <Card className="w-full max-w-xl">
-        <CardContent className="p-4 space-y-2">
-          <h2 className="font-semibold">Language Selection</h2>
-          <select
-            className="w-full p-2 border rounded-lg"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-          >
-            <option value="">Choose your language</option>
-            {languages.map((lang, idx) => (
-              <option key={idx} value={lang}>
-                {lang}
-              </option>
-            ))}
-          </select>
-        </CardContent>
-      </Card>
+  <!-- Language Selection -->
+  <div class="card">
+    <h2>Language Selection</h2>
+    <select id="language">
+      <option value="">Choose your language</option>
+      <option>English</option>
+      <option>Japanese</option>
+      <option>Spanish</option>
+      <option>French</option>
+      <option>Dutch</option>
+      <option>Mandarin</option>
+      <option>Arabic</option>
+    </select>
+  </div>
 
-      {/* Learning Topic */}
-      <Card className="w-full max-w-xl">
-        <CardContent className="p-4 space-y-2">
-          <h2 className="font-semibold">Learning Topic</h2>
-          <input
-            type="text"
-            placeholder="Enter what you want to learn (e.g., greetings, numbers, daily conversation, grammar)"
-            className="w-full p-2 border rounded-lg"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-          />
-        </CardContent>
-      </Card>
+  <!-- Learning Topic -->
+  <div class="card">
+    <h2>Learning Topic</h2>
+    <input type="text" id="topic" placeholder="Enter what you want to learn (e.g., greetings, numbers, grammar)">
+  </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col space-y-4 w-full max-w-xl">
-        <motion.div whileTap={{ scale: 0.95 }}>
-          <Button
-            onClick={handleLesson}
-            className="w-full bg-lime-300 hover:bg-lime-400 text-black font-semibold p-4 rounded-2xl shadow"
-          >
-            ✨ Language Lesson
-          </Button>
-        </motion.div>
+  <!-- Buttons -->
+  <button class="button lesson-btn" onclick="showLesson()">✨ Language Lesson</button>
+  <button class="button practice-btn" onclick="showConversation()">💬 Practice Conversation</button>
 
-        <motion.div whileTap={{ scale: 0.95 }}>
-          <Button className="w-full bg-lime-400 hover:bg-lime-500 text-black font-semibold p-4 rounded-2xl shadow">
-            💬 Practice Conversation
-          </Button>
-        </motion.div>
-      </div>
+  <!-- Output -->
+  <div id="output" class="output" style="display:none;"></div>
 
-      {/* Lesson Output */}
-      {lesson && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-xl mt-4 p-4 bg-white rounded-2xl shadow"
-        >
-          <h3 className="font-semibold">Lesson Output:</h3>
-          <p>{lesson}</p>
-        </motion.div>
-      )}
-    </div>
-  );
-}
+  <script>
+    function showLesson() {
+      const lang = document.getElementById("language").value;
+      const topic = document.getElementById("topic").value;
+      const output = document.getElementById("output");
+
+      if (!lang || !topic) {
+        output.innerHTML = "<b>Please select a language and enter a topic.</b>";
+      } else {
+        output.innerHTML = `<h3>Lesson Output:</h3>
+          <p>Here is your <b>${lang}</b> lesson about "<i>${topic}</i>".</p>`;
+      }
+      output.style.display = "block";
+    }
+
+    function showConversation() {
+      const lang = document.getElementById("language").value;
+      const topic = document.getElementById("topic").value;
+      const output = document.getElementById("output");
+
+      if (!lang || !topic) {
+        output.innerHTML = "<b>Please select a language and enter a topic.</b>";
+      } else {
+        output.innerHTML = `<h3>Practice Conversation:</h3>
+          <p
