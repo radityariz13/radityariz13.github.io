@@ -1,142 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learn Any Language (LAL)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
-      margin: 0;
+      text-align: center;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+      color: #333;
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 16px;
-      margin: 10px 0;
-      width: 90%;
-      max-width: 500px;
-    }
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-    select, input {
-      width: 100%;
+    select, input, button {
       padding: 10px;
-      margin-top: 8px;
-      border: 1px solid #ccc;
+      margin: 5px;
       border-radius: 8px;
-      font-size: 14px;
+      border: 1px solid #ccc;
     }
-    .button {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      margin: 8px 0;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .lesson-btn {
-      background: #ccff66;
-    }
-    .lesson-btn:hover {
-      background: #b3ff4d;
-    }
-    .practice-btn {
-      background: #99ff66;
-    }
-    .practice-btn:hover {
-      background: #80ff4d;
-    }
-    .output {
+    #lesson, #chat {
       margin-top: 20px;
       background: white;
-      padding: 16px;
+      padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 500px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    #chatBox {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    .user {
+      color: blue;
+    }
+    .bot {
+      color: green;
     }
   </style>
 </head>
 <body>
 
   <h1>Learn Any Language (LAL)</h1>
+  <p>Welcome! Choose a language and topic to start learning.</p>
 
-  <!-- Welcome Text -->
-  <div class="card">
-    <h2>Welcome Text</h2>
-    <p>
-      Welcome to Learn Any Language (LAL)! This interactive platform helps students 
-      learn various languages with topics you can choose.
-    </p>
+  <select id="language">
+    <option value="English">English</option>
+    <option value="Japanese">Japanese</option>
+    <option value="Spanish">Spanish</option>
+  </select>
+
+  <input type="text" id="topic" placeholder="Enter topic (e.g., greetings)">
+  <button onclick="showLesson()">Language Lesson</button>
+  <button onclick="startChat()">Practice Conversation</button>
+
+  <div id="lesson"></div>
+  <div id="chat" style="display:none;">
+    <h3>Practice Conversation</h3>
+    <div id="chatBox"></div>
+    <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter'){sendMessage()}">
+    <button onclick="sendMessage()">Send</button>
   </div>
-
-  <!-- Language Selection -->
-  <div class="card">
-    <h2>Language Selection</h2>
-    <select id="language">
-      <option value="">Choose your language</option>
-      <option>English</option>
-      <option>Japanese</option>
-      <option>Spanish</option>
-      <option>French</option>
-      <option>Dutch</option>
-      <option>Mandarin</option>
-      <option>Arabic</option>
-    </select>
-  </div>
-
-  <!-- Learning Topic -->
-  <div class="card">
-    <h2>Learning Topic</h2>
-    <input type="text" id="topic" placeholder="Enter what you want to learn (e.g., greetings, numbers, grammar)">
-  </div>
-
-  <!-- Buttons -->
-  <button class="button lesson-btn" onclick="showLesson()">✨ Language Lesson</button>
-  <button class="button practice-btn" onclick="showConversation()">💬 Practice Conversation</button>
-
-  <!-- Output -->
-  <div id="output" class="output" style="display:none;"></div>
 
   <script>
     function showLesson() {
-      const lang = document.getElementById("language").value;
-      const topic = document.getElementById("topic").value;
-      const output = document.getElementById("output");
+      const lang = document.getElementById('language').value;
+      const topic = document.getElementById('topic').value;
+      let content = "";
 
-      if (!lang || !topic) {
-        output.innerHTML = "<b>Please select a language and enter a topic.</b>";
+      if (lang === "English" && topic.toLowerCase() === "greetings") {
+        content = "Hello! → Hi!<br>Good Morning! → Morning!";
+      } else if (lang === "Japanese" && topic.toLowerCase() === "greetings") {
+        content = "こんにちは (Konnichiwa) → Hello<br>おはよう (Ohayou) → Good Morning";
+      } else if (lang === "Spanish" && topic.toLowerCase() === "greetings") {
+        content = "Hola → Hello<br>Buenos días → Good Morning";
       } else {
-        output.innerHTML = `<h3>Lesson Output:</h3>
-          <p>Here is your <b>${lang}</b> lesson about "<i>${topic}</i>".</p>`;
+        content = "Lesson not available for this topic yet.";
       }
-      output.style.display = "block";
+
+      document.getElementById('lesson').innerHTML = `<h3>${lang} - ${topic}</h3><p>${content}</p>`;
     }
 
-    function showConversation() {
-      const lang = document.getElementById("language").value;
-      const topic = document.getElementById("topic").value;
-      const output = document.getElementById("output");
+    function startChat() {
+      document.getElementById('chat').style.display = "block";
+      document.getElementById('chatBox').innerHTML = `<p class="bot"><b>LAL Bot:</b> Hi! Let's practice. Say something in ${document.getElementById('language').value}!</p>`;
+    }
 
-      if (!lang || !topic) {
-        output.innerHTML = "<b>Please select a language and enter a topic.</b>";
-      } else {
-        output.innerHTML = `<h3>Practice Conversation:</h3>
-          <p
+    function sendMessage() {
+      const input = document.getElementById('userInput').value;
+      if (!input) return;
+
+      const chatBox = document.getElementById('chatBox');
+      chatBox.innerHTML += `<p class="user"><b>You:</b> ${input}</p>`;
+
+      // Simulasi AI sederhana (bisa diganti OpenAI API)
+      let botReply = "I don’t understand yet. Try greetings like 'Hello'!";
+      if (input.toLowerCase().includes("hello")) botReply = "Hi there! How are you?";
+      if (input.toLowerCase().includes("hola")) botReply = "¡Hola! ¿Cómo estás?";
+      if (input.includes("こんにちは")) botReply = "こんにちは！元気ですか？";
+
+      chatBox.innerHTML += `<p class="bot"><b>LAL Bot:</b> ${botReply}</p>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      document.getElementById('userInput').value = "";
+    }
+  </script>
+</body>
+</html>
